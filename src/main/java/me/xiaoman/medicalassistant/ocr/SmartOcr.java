@@ -9,5 +9,5 @@ package me.xiaoman.medicalassistant.ocr;
  */
 
 public interface SmartOcr {
-    String recognize(String filename) throws Exception;
+    String recognize(String filename);
 }

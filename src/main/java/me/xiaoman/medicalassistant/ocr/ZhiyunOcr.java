@@ -18,8 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.kevinsawicki.http.HttpRequest;
+import me.xiaoman.medicalassistant.util.ConfigUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -40,10 +45,10 @@ public class ZhiyunOcr implements SmartOcr {
 
     private static final String URL = "http://openapi.youdao.com/ocrapi";
     private static final String APP_KEY = "08d47c6d7eff013a";
-    private static final String APP_SECRET = "eJfivFgH0FYOW7IriAyyQcoQ6gNPRqe1";
+    private static final String APP_SECRET = ConfigUtils.getPassword("zhiyun-ocr");
 
     @Override
-    public String recognize(String filename) throws Exception {
+    public String recognize(String filename) {
         HashMap<String, Object> map = new HashMap<>();
         String img = getImageStr(filename);
 
@@ -53,14 +58,36 @@ public class ZhiyunOcr implements SmartOcr {
         map.put("img", img);
         map.put("detectType", "10012");
         map.put("imageType", "1");
-        map.put("langType", "zh-en");
+        map.put("langType", "en");
         map.put("salt", salt);
         map.put("docType", "json");
         String sign = DigestUtils.md5Hex(APP_KEY + img + salt + APP_SECRET);
         map.put("sign", sign);
 
 //        return requestOCRForHttp(URL, map);
-        return HttpRequest.post(URL).form(map).body();
+        String response = HttpRequest.post(URL).form(map).body();
+        return parse(response);
+    }
+
+    private String parse(String response) {
+        JSONObject root = JSON.parseObject(response);
+        String code = root.getString("errorCode");
+
+        if (!"0".equals(code)){
+            logger.error("err code: "+code);
+            return "";
+        }
+
+        JSONObject result = root.getJSONObject("Result");
+        JSONObject region = (JSONObject) result.getJSONArray("regions").get(0);
+        JSONArray lines = region.getJSONArray("lines");
+
+        List<String> texts = new ArrayList<>();
+        for (Object line : lines) {
+            JSONObject json = JSON.parseObject(String.valueOf(line));
+            texts.add(json.getString("text"));
+        }
+        return StringUtils.join(texts, "\n");
     }
 
     private String requestOCRForHttp(String url, Map requestParams) throws Exception {

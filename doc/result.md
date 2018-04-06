@@ -41,3 +41,14 @@
 }
 ```
 
+2. 百度ocr
+```json
+{
+  "log_id": 7348765907556437526,
+  "words_result": [
+    {"words": "this is a multi line"},
+    {"words": "second line"}
+  ],
+  "words_result_num": 2
+}
+```

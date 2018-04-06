@@ -12,14 +12,24 @@ import org.junit.Test;
  */
 
 public class SmartOcrTest {
+    //    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\test.png";
+//    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\medical-diagnose.jpg";
+    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\symptom.png";
 
     @Test
-    public void testOcr() throws Exception {
-        String filename = "C:\\Users\\xiaobao\\Desktop\\1.png";
+    public void testOcr() {
+//        testBaiduOcr();
+        System.out.println("------------------\n");
+        testZhiyunOcr();
+    }
 
+    private void testBaiduOcr() {
+        String result = new BaiduOcr().recognize(filename);
+        System.out.println("baidu ocr: \n" + result);
+    }
+
+    private void testZhiyunOcr() {
         String result = new ZhiyunOcr().recognize(filename);
-
-        System.out.println(result);
-
+        System.out.println("zhiyun ocr: " + result);
     }
 }
