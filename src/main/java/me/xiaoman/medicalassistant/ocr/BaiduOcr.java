@@ -42,8 +42,8 @@ public class BaiduOcr implements SmartOcr {
         AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
 
         JSONObject response = client.basicGeneral(filename, new HashMap<String,String>());
-//        return parse(response);
-        return response.toString();
+        return parse(response);
+//        return response.toString();
     }
 
     private String parse(JSONObject root) {

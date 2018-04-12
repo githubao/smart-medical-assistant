@@ -66,8 +66,8 @@ public class ZhiyunOcr implements SmartOcr {
 
 //        return requestOCRForHttp(URL, map);
         String response = HttpRequest.post(URL).form(map).body();
-//        return parse(response);
-        return response;
+        return parse(response);
+//        return response;
     }
 
     private String parse(String response) {

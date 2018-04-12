@@ -2,13 +2,14 @@ package me.xiaoman.medicalassistant.service.impl;
 
 import me.xiaoman.medicalassistant.domain.MedicalAssistant;
 import me.xiaoman.medicalassistant.ocr.BaiduOcr;
-import me.xiaoman.medicalassistant.ocr.SmartOcr;
 import me.xiaoman.medicalassistant.ocr.ZhiyunOcr;
 import me.xiaoman.medicalassistant.service.MedicalAssistantService;
+import me.xiaoman.medicalassistant.util.ConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 智能医药助理 实现类
@@ -37,7 +38,6 @@ public class MedicalAssistantServiceImpl implements MedicalAssistantService {
 
     }
 
-
     private MedicalAssistant ocr(String filename) {
         MedicalAssistant assistant = new MedicalAssistant();
 
@@ -48,6 +48,22 @@ public class MedicalAssistantServiceImpl implements MedicalAssistantService {
     }
 
     private void nlp(MedicalAssistant assistant) {
-        return;
+
+//        TODO 这里只使用了百度ocr的结果
+        final String baiduAsr = assistant.getBaiduOcr();
+
+        Map<String, String> explains = new HashMap<>();
+
+        medicalProperMap.entrySet().stream()
+                .filter(it -> baiduAsr.contains(it.getKey()))
+                .forEach(it -> explains.put(it.getKey(), it.getValue()));
+
+        assistant.setExplanations(explains);
+    }
+
+    private static Map<String, String> medicalProperMap = null;
+
+    static {
+        medicalProperMap = ConfigUtils.getMedicalProper();
     }
 }

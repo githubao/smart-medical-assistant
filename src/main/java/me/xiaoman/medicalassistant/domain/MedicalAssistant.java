@@ -16,7 +16,7 @@ public class MedicalAssistant {
 
     private String zhiyunOcr;
 
-    private Map<String,String> explations;
+    private Map<String,String> explanations;
 
     public MedicalAssistant() {
     }
@@ -37,11 +37,11 @@ public class MedicalAssistant {
         this.zhiyunOcr = zhiyunOcr;
     }
 
-    public Map<String, String> getExplations() {
-        return explations;
+    public Map<String, String> getExplanations() {
+        return explanations;
     }
 
-    public void setExplations(Map<String, String> explations) {
-        this.explations = explations;
+    public void setExplanations(Map<String, String> explanations) {
+        this.explanations = explanations;
     }
 }
