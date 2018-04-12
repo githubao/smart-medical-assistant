@@ -39,10 +39,11 @@ public class BaiduOcr implements SmartOcr {
     public String recognize(String filename) {
 
         // TODO 使用spring-boot 之后，也就是上线之前，把这一行注释掉
-//        AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
+        AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
 
-        JSONObject response = client.basicGeneral(filename, new HashMap<>());
-        return parse(response);
+        JSONObject response = client.basicGeneral(filename, new HashMap<String,String>());
+//        return parse(response);
+        return response.toString();
     }
 
     private String parse(JSONObject root) {

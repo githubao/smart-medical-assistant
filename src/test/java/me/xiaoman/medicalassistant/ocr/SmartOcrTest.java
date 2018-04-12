@@ -13,12 +13,12 @@ import org.junit.Test;
 
 public class SmartOcrTest {
     //    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\test.png";
-//    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\medical-diagnose.jpg";
-    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\symptom.png";
+    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\medical-diagnose.jpg";
+//    private static final String filename = "C:\\Users\\xiaobao\\Desktop\\ocr\\symptom.png";
 
     @Test
     public void testOcr() {
-//        testBaiduOcr();
+        testBaiduOcr();
         System.out.println("------------------\n");
         testZhiyunOcr();
     }
@@ -30,6 +30,6 @@ public class SmartOcrTest {
 
     private void testZhiyunOcr() {
         String result = new ZhiyunOcr().recognize(filename);
-        System.out.println("zhiyun ocr: " + result);
+        System.out.println("zhiyun ocr: \n" + result);
     }
 }

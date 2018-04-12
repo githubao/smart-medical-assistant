@@ -66,7 +66,8 @@ public class ZhiyunOcr implements SmartOcr {
 
 //        return requestOCRForHttp(URL, map);
         String response = HttpRequest.post(URL).form(map).body();
-        return parse(response);
+//        return parse(response);
+        return response;
     }
 
     private String parse(String response) {
@@ -79,15 +80,25 @@ public class ZhiyunOcr implements SmartOcr {
         }
 
         JSONObject result = root.getJSONObject("Result");
-        JSONObject region = (JSONObject) result.getJSONArray("regions").get(0);
-        JSONArray lines = region.getJSONArray("lines");
+        JSONArray regions = result.getJSONArray("regions");
 
-        List<String> texts = new ArrayList<>();
-        for (Object line : lines) {
-            JSONObject json = JSON.parseObject(String.valueOf(line));
-            texts.add(json.getString("text"));
+        List<List<String>> regionTexts = new ArrayList<>();
+        for (Object parent: regions){
+            JSONObject region = JSON.parseObject(String.valueOf(parent));
+            JSONArray lines = region.getJSONArray("lines");
+
+            List<String> texts = new ArrayList<>();
+            for (Object child : lines) {
+                JSONObject json = JSON.parseObject(String.valueOf(child));
+                texts.add(json.getString("text"));
+            }
+
+            regionTexts.add(texts);
         }
-        return StringUtils.join(texts, "\n");
+
+        return StringUtils.join(regionTexts, "\n");
+
+
     }
 
     private String requestOCRForHttp(String url, Map requestParams) throws Exception {
