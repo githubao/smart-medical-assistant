@@ -1,5 +1,6 @@
 package me.xiaoman.medicalassistant.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import me.xiaoman.medicalassistant.constant.MedicalAssistantConstant;
 import me.xiaoman.medicalassistant.domain.MedicalAssistant;
@@ -51,7 +52,7 @@ public class MedicalAssistantController {
 
         try {
             byte[] bytes = file.getBytes();
-            String filename = MedicalAssistantConstant.FILE_PATH + file.getOriginalFilename();
+            String filename = buildFileName(file);
             Path path = Paths.get(filename);
             Files.write(path, bytes);
 
@@ -66,14 +67,29 @@ public class MedicalAssistantController {
         return "redirect:/success";
     }
 
+    private String buildFileName(MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        String[] attr = originalFilename.split("\\.");
+        String target = "." + attr[attr.length - 1];
+        String replacement = "-" + System.currentTimeMillis() + target;
+        String replacedFilename = originalFilename.replace(target, replacement);
+
+        return MedicalAssistantConstant.IMG_PATH + replacedFilename;
+    }
+
     private void addAttribute(RedirectAttributes redirectAttributes, MedicalAssistant assist) {
-        JSONObject baiduOcr = JSONObject.parseObject(assist.getBaiduOcr());
-        JSONObject zhiyunOcr = JSONObject.parseObject(assist.getZhiyunOcr());
-        String explanations = StringUtils.join(assist.getExplanations(), "\n");
+        JSONArray baiduOcr = JSONObject.parseArray(assist.getBaiduOcr());
+        String baiduResult = StringUtils.join(baiduOcr, "\n");
+
+        JSONArray zhiyunOcr = JSONObject.parseArray(assist.getZhiyunOcr());
+        String zhiyunResult = StringUtils.join(zhiyunOcr, "\n---region--\n");
+
+        String explanations = StringUtils.join(assist.getExplanations().entrySet(), "\n");
+
         String filename = new File(assist.getPicFile()).getName();
 
-        redirectAttributes.addFlashAttribute("baiduOcr", baiduOcr.getString("result"));
-        redirectAttributes.addFlashAttribute("zhiyunOcr", zhiyunOcr.getString("result"));
+        redirectAttributes.addFlashAttribute("baiduOcr", baiduResult);
+        redirectAttributes.addFlashAttribute("zhiyunOcr", zhiyunResult);
         redirectAttributes.addFlashAttribute("explanations", explanations);
         redirectAttributes.addFlashAttribute("picFile", "img/" + filename);
     }

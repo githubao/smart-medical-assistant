@@ -45,7 +45,7 @@ public class ConfigUtils {
     private static Map<String, String> doGetMedicalProper() throws IOException {
 //        File file = ResourceUtils.getFile("classpath:medical_proper_nouns.properties");
 
-        String filename = String.format("%s/%s.properties", MedicalAssistantConstant.ROOT_PATH, "medical_proper_nouns");
+        String filename = String.format("%s/%s.properties", MedicalAssistantConstant.FILE_PATH, "medical_proper_nouns");
 
         List<String> lines = FileUtils.readLines(new File(filename), "utf-8");
 

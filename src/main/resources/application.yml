@@ -12,5 +12,5 @@ spring:
       - classpath:/static/
       - classpath:/public/
       - file:d:/ocr/
-
-
+server:
+  port: 9999

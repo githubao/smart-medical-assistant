@@ -9,54 +9,74 @@
 
     <!--<link rel="stylesheet" href="../static/css/bootstrap.min.css" />-->
     <!--<link rel="stylesheet" href="../static/css/fileinput.min.css" />-->
-
     <!--<script type="text/javascript" src="../static/js/bootstrap.min.js" ></script>-->
     <!--<script type="text/javascript" src="../static/js/jquery-3.3.1.min.js" ></script>-->
     <!--<script type="text/javascript" src="../static/js/fileinput.min.js" ></script>-->
     <!--<script type="text/javascript" src="../static/js/zh.js" ></script>-->
 
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" />
-    <link rel="stylesheet" th:href="@{/css/fileinput.min.css}" href="../../css/fileinput.min.css" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css"/>
+    <!--<link rel="stylesheet" th:href="@{/css/fileinput.min.css}" href="../../css/fileinput.min.css"/>-->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.css}" src="../../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.css}" src="../../js/bootstrap.min.js"></script>
+    <!--<script type="text/javascript" th:src="@{/js/fileinput.min.css}" src="../../js/fileinput.min.js"></script>-->
+    <!--<script type="text/javascript" th:src="@{/js/zh.css}" src="../../js/zh.js"></script>-->
 
-    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.css}" src="../../js/jquery-3.3.1.min.js" ></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap.min.css}" src="../../js/bootstrap.min.js" ></script>
-    <script type="text/javascript" th:src="@{/js/fileinput.min.css}" src="../../js/fileinput.min.js" ></script>
-    <script type="text/javascript" th:src="@{/js/zh.css}" src="../../js/zh.js" ></script>
+    <!--<script type="text/javascript" src="http://www.bootcss.com/p/layoutit/js/bootstrap.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://www.bootcss.com/p/layoutit/js/jquery-ui.js"></script>-->
 
 </head>
 
 <body>
 
-<h1>Medical Assistant - succeed</h1>
 
+<div class="container">
+    <h1 align="center">Medical Assistant - Result</h1>
 
-<form role="form">
-    <div class="form-group">
+    <div class="row">
 
-        <div id="upload-img">
-            <label>pic: </label><br/>
-            <!--<img th:src="${picFile}" height="300px" width="200px"/>-->
-            <img th:src="${picFile}"/>
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="upload-img">
+                        <div>pic:</div>
+                        <img th:src="${picFile}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="baidu">
+                        <label>baiduOcr: </label>
+                        <textarea class="form-control" rows="6" th:text="${baiduOcr}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="zhiyun">
+                        <label>zhiyunOcr: </label>
+                        <textarea class="form-control" rows="6" th:text="${zhiyunOcr}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="explanations">
+                        <label>explanations: </label>
+                        <textarea class="form-control" rows="6" th:text="${explanations}"/>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <div id="baidu">
-            <label>baiduOcr: </label>
-            <textarea class="form-control" rows="3" th:width="50" th:text="${baiduOcr}"/>
-        </div>
-
-        <div id="zhiyun">
-            <label>zhiyunOcr: </label>
-            <textarea class="form-control" rows="3" th:width="50" th:text="${zhiyunOcr}"/>
-        </div>
-
-        <div id="explanations">
-            <label>explanations: </label>
-            <textarea class="form-control" rows="3" th:width="50" th:text="${explanations}"/>
-        </div>
-
     </div>
-</form>
+</div>
 
 
 </body>
 </html>
+

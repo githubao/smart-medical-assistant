@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.kevinsawicki.http.HttpRequest;
 import me.xiaoman.medicalassistant.util.ConfigUtils;
+import me.xiaoman.medicalassistant.util.JsonParser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -72,7 +73,7 @@ public class ZhiyunOcr implements SmartOcr {
 
     @Override
     public String fake(String filename) {
-        return "{\"result\":\"[MR所见: 膝关节MRI:右侧膝关节腔显示积液,前交叉韧带显示肿胀,信, 号混杂,边缘不规则,关节囊显示小灶性游离体征象,关节诸骨, 未见异常征象,内外侧半月板大小形态显示正常,其内显示异常, 信号灶。]\",\"elapsed\":410}";
+        return "[\"MR所见: 膝关节MRI:右侧膝关节腔显示积液,前交叉韧带显示肿胀,信\n号混杂,边缘不规则,关节囊显示小灶性游离体征象,关节诸骨\n未见异常征象,内外侧半月板大小形态显示正常,其内显示异常\n信号灶。\"]";
     }
 
     private String parse(String response) {
@@ -87,7 +88,7 @@ public class ZhiyunOcr implements SmartOcr {
         JSONObject result = root.getJSONObject("Result");
         JSONArray regions = result.getJSONArray("regions");
 
-        List<List<String>> regionTexts = new ArrayList<>();
+        List<String> regionTexts = new ArrayList<>();
         for (Object parent: regions){
             JSONObject region = JSON.parseObject(String.valueOf(parent));
             JSONArray lines = region.getJSONArray("lines");
@@ -98,12 +99,11 @@ public class ZhiyunOcr implements SmartOcr {
                 texts.add(json.getString("text"));
             }
 
-            regionTexts.add(texts);
+//            把区域内的文件连接起来
+            regionTexts.add(StringUtils.join(texts,"\n"));
         }
 
-        return StringUtils.join(regionTexts, "\n");
-
-
+        return JsonParser.toJson(regionTexts);
     }
 
     private String requestOCRForHttp(String url, Map requestParams) throws Exception {

@@ -1,6 +1,8 @@
 package me.xiaoman.medicalassistant.aop;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import me.xiaoman.medicalassistant.util.JsonParser;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -43,7 +45,7 @@ public class TimeAspect {
             Object result = joinPoint.proceed();
             long end = System.currentTimeMillis();
             logger.error("+++++around " + joinPoint + "\tUse time : " + (end - start) + " ms!");
-            return buildJson(result, end - start);
+            return result;
 
         } catch (Throwable e) {
             long end = System.currentTimeMillis();
@@ -53,11 +55,15 @@ public class TimeAspect {
 
     }
 
-    private String buildJson(Object result, long time) {
-        JSONObject json = new JSONObject();
-        json.put("result", result);
-        json.put("elapsed", time);
-        return json.toString();
-    }
+//    private String buildJson(Object result, long time) {
+//        JSONObject json = new JSONObject();
+//        if (result instanceof Iterable){
+//            json.put("result", JsonParser.toObject(String.valueOf(result),JSONArray.class));
+//        }else {
+//            json.put("result", JsonParser.toObject(String.valueOf(result),JSONObject.class));
+//        }
+//        json.put("elapsed", time);
+//        return json.toString();
+//    }
 
 }

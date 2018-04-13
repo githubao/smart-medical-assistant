@@ -43,8 +43,11 @@ public class MedicalAssistantServiceImpl implements MedicalAssistantService {
     private void ocr(MedicalAssistant assistant) {
         String filename = assistant.getPicFile();
 
-        assistant.setBaiduOcr(baiduOcr.fake(filename));
-        assistant.setZhiyunOcr(zhiyunOcr.fake(filename));
+        assistant.setBaiduOcr(baiduOcr.recognize(filename));
+        assistant.setZhiyunOcr(zhiyunOcr.recognize(filename));
+
+//        assistant.setBaiduOcr(baiduOcr.fake(filename));
+//        assistant.setZhiyunOcr(zhiyunOcr.fake(filename));
     }
 
     private void nlp(MedicalAssistant assistant) {
@@ -64,6 +67,10 @@ public class MedicalAssistantServiceImpl implements MedicalAssistantService {
     private static Map<String, String> medicalProperMap = null;
 
     static {
+        medicalProperMap = ConfigUtils.getMedicalProper();
+    }
+
+    public synchronized void updateMap(){
         medicalProperMap = ConfigUtils.getMedicalProper();
     }
 }
