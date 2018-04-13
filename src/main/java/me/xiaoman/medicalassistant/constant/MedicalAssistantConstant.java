@@ -12,9 +12,6 @@ import java.io.IOException;
  */
 
 public class MedicalAssistantConstant {
-    //    public static final String ROOT_PATH = "C:\\Users\\xiaobao\\Desktop\\ocr\\";
-    public static String ROOT_PATH;
-
     public static String FILE_PATH = "d:/ocr/";
     public static String IMG_PATH = FILE_PATH + "img/";
 
@@ -24,11 +21,5 @@ public class MedicalAssistantConstant {
             file.mkdirs();
         }
 
-        try {
-            ROOT_PATH = new ClassPathResource("file").getFile().getAbsolutePath();
-//            FILE_PATH = ROOT_PATH;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

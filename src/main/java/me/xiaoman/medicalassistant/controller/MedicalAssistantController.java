@@ -57,6 +57,7 @@ public class MedicalAssistantController {
             Files.write(path, bytes);
 
             MedicalAssistant assist = service.assist(filename);
+            logger.info(String.format("request: %s -> response: %s", filename, assist));
 
             addAttribute(redirectAttributes, assist);
 
@@ -82,7 +83,7 @@ public class MedicalAssistantController {
         String baiduResult = StringUtils.join(baiduOcr, "\n");
 
         JSONArray zhiyunOcr = JSONObject.parseArray(assist.getZhiyunOcr());
-        String zhiyunResult = StringUtils.join(zhiyunOcr, "\n---region--\n");
+        String zhiyunResult = StringUtils.join(zhiyunOcr, "\n\n");
 
         String explanations = StringUtils.join(assist.getExplanations().entrySet(), "\n");
 

@@ -2,12 +2,15 @@ package me.xiaoman.medicalassistant.util;
 
 import me.xiaoman.medicalassistant.constant.MedicalAssistantConstant;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +27,11 @@ public class ConfigUtils {
     private static final Logger logger = LoggerFactory.getLogger(ConfigUtils.class);
 
     public static String getPassword(String filename) {
-        String fullname = String.format("%s/%s.txt", MedicalAssistantConstant.ROOT_PATH, filename);
         try {
-            return FileUtils.readFileToString(new File(fullname), "UTF-8");
+            InputStream in = new ClassPathResource(String.format("file/%s.txt", filename)).getInputStream();
+            return IOUtils.readLines(in, "UTF-8").get(0);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(ExceptionUtils.getStackTrace(e));
         }
         return "";
     }
