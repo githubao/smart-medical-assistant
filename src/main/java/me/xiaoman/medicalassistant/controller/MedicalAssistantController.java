@@ -1,8 +1,11 @@
 package me.xiaoman.medicalassistant.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import me.xiaoman.medicalassistant.constant.MedicalAssistantConstant;
 import me.xiaoman.medicalassistant.domain.MedicalAssistant;
 import me.xiaoman.medicalassistant.service.MedicalAssistantService;
+import me.xiaoman.medicalassistant.util.JsonParser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,13 +51,13 @@ public class MedicalAssistantController {
 
         try {
             byte[] bytes = file.getBytes();
-            String filename = MedicalAssistantConstant.ROOT_PATH + "img/" + file.getOriginalFilename();
+            String filename = MedicalAssistantConstant.FILE_PATH + file.getOriginalFilename();
             Path path = Paths.get(filename);
             Files.write(path, bytes);
 
             MedicalAssistant assist = service.assist(filename);
 
-            addAttribute(redirectAttributes,assist);
+            addAttribute(redirectAttributes, assist);
 
         } catch (IOException e) {
             logger.error(ExceptionUtils.getStackTrace(e));
@@ -63,10 +67,15 @@ public class MedicalAssistantController {
     }
 
     private void addAttribute(RedirectAttributes redirectAttributes, MedicalAssistant assist) {
-        redirectAttributes.addFlashAttribute("baiduOcr", assist.getBaiduOcr());
-        redirectAttributes.addFlashAttribute("zhiyunOcr", assist.getZhiyunOcr());
-        redirectAttributes.addFlashAttribute("explanations", assist.getExplanations());
+        JSONObject baiduOcr = JSONObject.parseObject(assist.getBaiduOcr());
+        JSONObject zhiyunOcr = JSONObject.parseObject(assist.getZhiyunOcr());
+        String explanations = StringUtils.join(assist.getExplanations(), "\n");
+        String filename = new File(assist.getPicFile()).getName();
 
+        redirectAttributes.addFlashAttribute("baiduOcr", baiduOcr.getString("result"));
+        redirectAttributes.addFlashAttribute("zhiyunOcr", zhiyunOcr.getString("result"));
+        redirectAttributes.addFlashAttribute("explanations", explanations);
+        redirectAttributes.addFlashAttribute("picFile", "img/" + filename);
     }
 
     @GetMapping("/success")

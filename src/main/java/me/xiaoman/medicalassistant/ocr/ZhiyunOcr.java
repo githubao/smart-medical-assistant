@@ -70,6 +70,11 @@ public class ZhiyunOcr implements SmartOcr {
 //        return response;
     }
 
+    @Override
+    public String fake(String filename) {
+        return "{\"result\":\"[MR所见: 膝关节MRI:右侧膝关节腔显示积液,前交叉韧带显示肿胀,信, 号混杂,边缘不规则,关节囊显示小灶性游离体征象,关节诸骨, 未见异常征象,内外侧半月板大小形态显示正常,其内显示异常, 信号灶。]\",\"elapsed\":410}";
+    }
+
     private String parse(String response) {
         JSONObject root = JSON.parseObject(response);
         String code = root.getString("errorCode");

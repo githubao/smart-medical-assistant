@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Medical Assistant</title>
+    <!--<link href="http://libs.baidu.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<script src="http://libs.baidu.com/jquery/3.3.1/jquery.min.js"></script>-->
+    <!--<script src="http://libs.baidu.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+
+    <!--<link rel="stylesheet" href="../static/css/bootstrap.min.css" />-->
+    <!--<link rel="stylesheet" href="../static/css/fileinput.min.css" />-->
+
+    <!--<script type="text/javascript" src="../static/js/bootstrap.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../static/js/jquery-3.3.1.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../static/js/fileinput.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../static/js/zh.js" ></script>-->
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/fileinput.min.css}" href="../../css/fileinput.min.css" />
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.css}" src="../../js/jquery-3.3.1.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.css}" src="../../js/bootstrap.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/fileinput.min.css}" src="../../js/fileinput.min.js" ></script>
+    <script type="text/javascript" th:src="@{/js/zh.css}" src="../../js/zh.js" ></script>
+
+</head>
+
 <body>
 
 <h1>Medical Assistant - succeed</h1>
 
-<div>
-    baiduOcr:
-    <p th:text="${baiduOcr}"/>
-    <br/>
-    zhiyunOcr:
-    <p th:text="${zhiyunOcr}"/>
-    <br/>
-    explanations:
-    <p th:text="${explanations}"/>
-</div>
+
+<form role="form">
+    <div class="form-group">
+
+        <div id="upload-img">
+            <label>pic: </label><br/>
+            <!--<img th:src="${picFile}" height="300px" width="200px"/>-->
+            <img th:src="${picFile}"/>
+        </div>
+
+        <div id="baidu">
+            <label>baiduOcr: </label>
+            <textarea class="form-control" rows="3" th:width="50" th:text="${baiduOcr}"/>
+        </div>
+
+        <div id="zhiyun">
+            <label>zhiyunOcr: </label>
+            <textarea class="form-control" rows="3" th:width="50" th:text="${zhiyunOcr}"/>
+        </div>
+
+        <div id="explanations">
+            <label>explanations: </label>
+            <textarea class="form-control" rows="3" th:width="50" th:text="${explanations}"/>
+        </div>
+
+    </div>
+</form>
+
 
 </body>
 </html>

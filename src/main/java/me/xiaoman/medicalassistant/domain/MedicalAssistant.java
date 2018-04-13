@@ -18,7 +18,13 @@ public class MedicalAssistant {
 
     private Map<String,String> explanations;
 
+    private String picFile;
+
     public MedicalAssistant() {
+    }
+
+    public MedicalAssistant(String picFile) {
+        this.picFile = picFile;
     }
 
     public String getBaiduOcr() {
@@ -43,5 +49,13 @@ public class MedicalAssistant {
 
     public void setExplanations(Map<String, String> explanations) {
         this.explanations = explanations;
+    }
+
+    public String getPicFile() {
+        return picFile;
+    }
+
+    public void setPicFile(String picFile) {
+        this.picFile = picFile;
     }
 }

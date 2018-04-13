@@ -30,7 +30,9 @@ public class MedicalAssistantServiceImpl implements MedicalAssistantService {
 
     @Override
     public MedicalAssistant assist(String filename) {
-        MedicalAssistant assistant = ocr(filename);
+        MedicalAssistant assistant = new MedicalAssistant(filename);
+
+        ocr(assistant);
 
         nlp(assistant);
 
@@ -38,13 +40,11 @@ public class MedicalAssistantServiceImpl implements MedicalAssistantService {
 
     }
 
-    private MedicalAssistant ocr(String filename) {
-        MedicalAssistant assistant = new MedicalAssistant();
+    private void ocr(MedicalAssistant assistant) {
+        String filename = assistant.getPicFile();
 
-        assistant.setBaiduOcr(baiduOcr.recognize(filename));
-        assistant.setZhiyunOcr(zhiyunOcr.recognize(filename));
-
-        return assistant;
+        assistant.setBaiduOcr(baiduOcr.fake(filename));
+        assistant.setZhiyunOcr(zhiyunOcr.fake(filename));
     }
 
     private void nlp(MedicalAssistant assistant) {

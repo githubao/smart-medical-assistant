@@ -1,4 +1,16 @@
 logging:
   level:
     org: warn
+spring:
+  devtools:
+    restart:
+      enabled: true
+  resources:
+    static-locations:
+      - classpath:/META-INF/resources/
+      - classpath:/resources/
+      - classpath:/static/
+      - classpath:/public/
+      - file:d:/ocr/
+
 

@@ -10,4 +10,6 @@ package me.xiaoman.medicalassistant.ocr;
 
 public interface SmartOcr {
     String recognize(String filename);
+
+    String fake(String filename);
 }
